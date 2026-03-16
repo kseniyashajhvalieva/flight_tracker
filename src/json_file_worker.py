@@ -21,7 +21,7 @@ class JSONFileWorker(BaseFileWorker):
     def _read_data(self) -> List[Dict[str, Any]]:
         """Приватный метод: прочитать все данные из файла."""
         with open(self._filename, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore[no-any-return]
 
     def _write_data(self, data: List[Dict[str, Any]]) -> None:
         """Приватный метод: записать все данные в файл."""
@@ -36,7 +36,7 @@ class JSONFileWorker(BaseFileWorker):
             all_data.append(data)
             self._write_data(all_data)
 
-    def get_data(self, **criteria) -> List[Dict[str, Any]]:
+    def get_data(self, **criteria: Any) -> List[Dict[str, Any]]:
         """Получить данные из файла по критериям."""
         all_data = self._read_data()
 
@@ -54,7 +54,7 @@ class JSONFileWorker(BaseFileWorker):
                 result.append(item)
         return result
 
-    def delete_data(self, **criteria) -> None:
+    def delete_data(self, **criteria: Any) -> None:
         """Удалить информацию о самолётах по критериям."""
         all_data = self._read_data()
 

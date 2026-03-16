@@ -19,7 +19,7 @@ class ApiClient(BaseAPI):
 
         if response.status_code != 200:
             raise Exception(f"Ошибка API: {response.status_code}")
-        return response.json()
+        return response.json()  # type: ignore[no-any-return]
 
     def get_data(self, country: str) -> Dict[str, Any]:
         """Получить данные о самолетах по названию страны."""
@@ -27,10 +27,17 @@ class ApiClient(BaseAPI):
         geo_endpoint = f"/search?q={country}&format=json"
         geo_data = self._connect(geo_endpoint)
 
-        if not geo_data:
+        if not geo_data or not isinstance(geo_data, list) or len(geo_data) == 0:
             return {"error": "Страна не найдена"}
-        # Берём boundingbox из первого результата
-        bounds = geo_data[0].get("boundingbox", [])
+
+        first_result = geo_data[0]
+        if not isinstance(first_result, dict):
+            return {"error": "Некорректный ответ от API"}
+
+        bounds = first_result.get("boundingbox", [])
+        if len(bounds) != 4:
+            return {"error": "Некорректные границы страны"}
+
         # Формируем запрос к opensky по координатам
         lat_min, lat_max, lon_min, lon_max = map(float, bounds)
         opensky_endpoint = f"/states/all?lamin={lat_min}&lamax={lat_max}&lomin={lon_min}&lomax={lon_max}"

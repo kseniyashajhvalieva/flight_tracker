@@ -45,8 +45,10 @@ class Aircraft:
         """Больше или равно."""
         return self._altitude >= other._altitude
 
-    def __eq__(self, other: "Aircraft") -> bool:
+    def __eq__(self, other: object) -> bool:
         """Равно."""
+        if not isinstance(other, Aircraft):
+            return NotImplemented
         return self._altitude == other._altitude
 
     # Магические методы для сравнения по скорости
