@@ -90,7 +90,7 @@ class Aircraft:
             "country": self._country,
             "velocity": self._velocity,
             "altitude": self._altitude,
-            "vertical_rate": self._vertical_rate
+            "vertical_rate": self._vertical_rate,
         }
 
     @classmethod
@@ -102,7 +102,7 @@ class Aircraft:
             country=data["country"],
             velocity=data["velocity"],
             altitude=data["altitude"],
-            vertical_rate=data["vertical_rate"]
+            vertical_rate=data["vertical_rate"],
         )
 
     def __repr__(self) -> str:
