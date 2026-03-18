@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 class BaseFileWorker(ABC):
@@ -11,11 +11,11 @@ class BaseFileWorker(ABC):
         pass
 
     @abstractmethod
-    def get_data(self, **criteria) -> List[Dict[str, Any]]:
+    def get_data(self, **criteria: Any) -> List[Dict[str, Any]]:
         """Получить данные из файла по указанным критериям."""
         pass
 
     @abstractmethod
-    def delete_data(self, **criteria) -> None:
+    def delete_data(self, **criteria: Any) -> None:
         """Удалить информацию о самолётах по критериям."""
         pass
